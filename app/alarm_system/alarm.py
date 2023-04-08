@@ -4,6 +4,7 @@ class Alarm():
     def __init__(self, alarm_type: AlarmType, tick_rate: float) -> None:
         self.active = False
 
+        self.name = alarm_type.name
         self.priority = alarm_type.priority
         self.toggle_char = alarm_type.toggle_char
         self.beep_interval = alarm_type.beep_interval / tick_rate
