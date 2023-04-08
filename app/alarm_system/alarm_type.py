@@ -1,5 +1,5 @@
 from enum import Enum
-from colorama import Fore
+from colorama import Fore, Style
 
 class AlarmType(Enum):
     LOW = {"priority": 1, "toggle_char": "l", "beep_interval": 30, "beep_duration": 1, "color": Fore.GREEN}
@@ -32,4 +32,4 @@ class AlarmType(Enum):
 
     @property
     def color(self):
-        return self.value.get("color")
+        return self.value.get("color", Style.RESET_ALL)
