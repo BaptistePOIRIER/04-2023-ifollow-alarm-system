@@ -18,7 +18,7 @@ class AlarmSystem:
         self.alarm: Alarm = None
         self.current_alarm_priority = 0
 
-        self.timer = threading.Timer(self.tick_rate, self.alarm_tick).start()
+        self.alarm_tick()
 
     def toggle_alarm(self, alarm: Alarm) -> None:
         alarm.active = not alarm.active
