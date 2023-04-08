@@ -14,6 +14,8 @@ class AlarmSystem:
         self.tick_rate = 0.25
         self.tick = 0
 
+        self.pressed_keys = set()
+
         self.alarms = [Alarm(alarm_type, self.tick_rate) for alarm_type in AlarmType]
         self.alarm: Alarm = None
         self.current_alarm_priority = 0
@@ -41,14 +43,28 @@ class AlarmSystem:
             print(Style.RESET_ALL + "_", end="")
 
         self.tick += 1
-        threading.Timer(self.tick_rate, self.alarm_tick).start()
+        self.timer = threading.Timer(self.tick_rate, self.alarm_tick)
+        self.timer.start()
+
+    def key_event(self, event):
+        key_name = event.name
+
+        for alarm in self.alarms:
+            if key_name == alarm.toggle_char and event.event_type == keyboard.KEY_DOWN:
+                if key_name not in self.pressed_keys:
+                    self.toggle_alarm(alarm)
+                    self.pressed_keys.add(key_name)
+            
+            elif event.event_type == keyboard.KEY_UP:
+                if key_name in self.pressed_keys:
+                    self.pressed_keys.remove(key_name)
 
     def run(self) -> None:
-        while True:
-            for alarm in self.alarms:
-                if keyboard.is_pressed(alarm.toggle_char):
-                    self.toggle_alarm(alarm)
-                    time.sleep(0.5)
+        keyboard.hook(self.key_event)
+        keyboard.wait('ctrl+c')
+
+        self.timer.cancel()
+        print(Fore.CYAN + "\n\nResults:")
 
 if __name__ == "__main__":
     AlarmSystem().run()
