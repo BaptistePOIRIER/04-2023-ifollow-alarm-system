@@ -142,6 +142,22 @@ def test_alarm_tick_high_beep(capsys) -> None:
                             "".join([Fore.RED + "_" for _ in range(8)])
 
 
+
+def test_summarize_total_ticks() -> None:
+    alarm_system = AlarmSystem()
+    with patch("threading.Timer"):
+        for _ in range(42):
+            alarm_system.alarm_tick()
+    assert alarm_system.summary["total_ticks"] == 42
+
+
+def test_summarize_total_toggles() -> None:
+    alarm_system = AlarmSystem()
+    for _ in range(10):
+        alarm_system.toggle_alarm(alarm_system.alarms[0])
+    assert alarm_system.summary["total_toggles"] == 10
+
+
 def test_summarize_print(capsys) -> None:
     alarm_system = AlarmSystem()
     
@@ -149,7 +165,7 @@ def test_summarize_print(capsys) -> None:
     alarm_system.summary["total_ticks"] = 42
     alarm_system.summary["total_toggles"] = 10
 
-    alarm_system.stop()
+    alarm_system.summarize()
 
     captured = capsys.readouterr()
     assert captured.out == Fore.CYAN + f"\n\nElapsed time: {10.50:.2f} seconds ({42} characters printed)\n" + \
