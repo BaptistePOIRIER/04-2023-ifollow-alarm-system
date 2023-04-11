@@ -1,18 +1,21 @@
 import keyboard
 import threading
-import time
 
 from colorama import Fore, Style, init
 
-from alarm_type import AlarmType
-from alarm import Alarm
+from src.alarm_type import AlarmType
+from src.alarm import Alarm
 
 init()
 
 class AlarmSystem:
-    def __init__(self) -> None:
-        self.tick_rate = 0.25
+    def __init__(self, alarms: list[AlarmType] = [AlarmType.LOW, AlarmType.MEDIUM, AlarmType.HIGH], tick_rate: float = 0.25) -> None:
+        self.tick_rate = tick_rate
         self.tick = 0
+
+        self.current_alarm_priority = 0
+        self.alarms = [Alarm(alarm_type, self.tick_rate) for alarm_type in alarms]
+        self.alarm: Alarm = None
 
         self.pressed_keys = set()
 
@@ -20,12 +23,6 @@ class AlarmSystem:
             "total_ticks": 0,
             "total_toggles": 0
         }
-
-        self.alarms = [Alarm(alarm_type, self.tick_rate) for alarm_type in AlarmType]
-        self.alarm: Alarm = None
-        self.current_alarm_priority = 0
-
-        self.alarm_tick()
 
     def toggle_alarm(self, alarm: Alarm) -> None:
         alarm.active = not alarm.active
@@ -38,6 +35,7 @@ class AlarmSystem:
             self.tick = 0
         
         self.summary["total_toggles"] += 1
+
 
     def alarm_tick(self) -> None:
         if self.current_alarm_priority != 0:
@@ -54,7 +52,8 @@ class AlarmSystem:
         self.timer = threading.Timer(self.tick_rate, self.alarm_tick)
         self.timer.start()
 
-    def key_event(self, event):
+
+    def key_event(self, event: keyboard._Event) -> None:
         key_name = event.name
 
         for alarm in self.alarms:
@@ -67,14 +66,13 @@ class AlarmSystem:
                 if key_name in self.pressed_keys:
                     self.pressed_keys.remove(key_name)
 
-    def run(self) -> None:
-        keyboard.hook(self.key_event)
-        keyboard.wait('ctrl+c')
 
-        self.timer.cancel()
+    def summarize(self) -> None:
         print(Fore.CYAN + f"\n\nElapsed time: {self.summary['total_ticks']*self.tick_rate:.2f} seconds ({self.summary['total_ticks']} characters printed)")
         print(f"Alarms toggled: {self.summary['total_toggles']} times")
         print(f"Alarms status: {[alarm.name + ': ' + ('ON' if alarm.active else 'OFF') for alarm in self.alarms]}")
 
-if __name__ == "__main__":
-    AlarmSystem().run()
+
+    def stop(self) -> None:
+        self.timer.cancel()
+        self.summarize()
