@@ -118,3 +118,25 @@ def test_alarm_tick_medium_beep(capsys) -> None:
     captured = capsys.readouterr()
     assert captured.out ==  "".join([Fore.YELLOW + "X" for _ in range(1)]) + "".join([Fore.YELLOW + "_" for _ in range(3)]) + \
                             "".join([Fore.YELLOW + "X" for _ in range(1)]) + "".join([Fore.YELLOW + "_" for _ in range(3)])
+
+
+def test_alarm_tick_high_beep(capsys) -> None:
+    alarm_system = AlarmSystem()
+    alarm_system.toggle_alarm(alarm_system.alarms[2])
+    with patch("threading.Timer"):
+        for _ in range(36):
+            alarm_system.alarm_tick()
+
+    captured = capsys.readouterr()
+    assert captured.out ==  "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "_" for _ in range(8)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
+                            "".join([Fore.RED + "_" for _ in range(8)])
