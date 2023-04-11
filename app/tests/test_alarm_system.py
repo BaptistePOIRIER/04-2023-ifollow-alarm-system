@@ -1,5 +1,7 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 import keyboard
+
+from colorama import Fore, Style
 
 from src.alarm_system import AlarmSystem
 from src.alarm import Alarm
@@ -81,3 +83,13 @@ def test_key_event() -> None:
     alarm_system.key_event(event)
     assert alarm_system.alarms[0].active == False
     assert "a" not in alarm_system.pressed_keys
+
+
+def test_alarm_tick_no_beep(capsys) -> None:
+    alarm_system = AlarmSystem()
+    with patch("threading.Timer"):
+        for _ in range(10):
+            alarm_system.alarm_tick()
+
+    captured = capsys.readouterr()
+    assert captured.out == "".join([Style.RESET_ALL + "_" for _ in range(10)])
