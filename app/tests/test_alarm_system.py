@@ -1,38 +1,36 @@
-import unittest
-from unittest.mock import Mock
-from alarm_system import AlarmSystem
+from src.alarm_system import AlarmSystem
+from src.alarm import Alarm
+from src.alarm_type import AlarmType
 
-class TestAlarmSystem(unittest.TestCase):
 
-    def test_toggle_alarm(self):
-        alarm_system = AlarmSystem()
-        alarm = alarm_system.alarms[0]
+def test_alarm_system_init_default() -> None:
+    alarm_system = AlarmSystem()
 
-        initial_state = alarm.active
-        initial_total_toggles = alarm_system.summary["total_toggles"]
+    assert alarm_system.tick_rate == 0.25
 
-        alarm_system.toggle_alarm(alarm)
+    alarm_low = Alarm(AlarmType.LOW, 0.25)
+    alarm_medium = Alarm(AlarmType.MEDIUM, 0.25)
+    alarm_high = Alarm(AlarmType.HIGH, 0.25)
+    alarms = [alarm_low, alarm_medium, alarm_high]
 
-        self.assertEqual(alarm.active, not initial_state)
-        self.assertEqual(alarm_system.summary["total_toggles"], initial_total_toggles + 1)
+    for i, alarm in enumerate(alarms):
+        assert alarm == alarm_system.alarms[i]
 
-    def test_key_event(self):
-        alarm_system = AlarmSystem()
-        alarm = alarm_system.alarms[0]
 
-        initial_state = alarm.active
+def test_alarm_system_init() -> None:
+    alarm_system = AlarmSystem(alarms=[AlarmType.LOW,AlarmType.HIGH], tick_rate=0.125)
 
-        mock_key_down_event = Mock(name=alarm.toggle_char, event_type='down')
-        mock_key_up_event = Mock(name=alarm.toggle_char, event_type='up')
+    assert alarm_system.tick_rate == 0.125
 
-        alarm_system.key_event(mock_key_down_event)
+    alarm_low = Alarm(AlarmType.LOW, 0.125)
+    alarm_high = Alarm(AlarmType.HIGH, 0.125)
+    alarms = [alarm_low, alarm_high]
 
-        self.assertEqual(alarm.active, not initial_state)
-        self.assertIn(alarm.toggle_char, alarm_system.pressed_keys)
+    for i, alarm in enumerate(alarms):
+        assert alarm == alarm_system.alarms[i]
 
-        alarm_system.key_event(mock_key_up_event)
 
-        self.assertNotIn(alarm.toggle_char, alarm_system.pressed_keys)
+def test_toggle_alarm() -> None:
+    alarm_system = AlarmSystem()
 
-if __name__ == "__main__":
-    unittest.main()
+    
