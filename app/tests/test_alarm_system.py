@@ -171,3 +171,13 @@ def test_summarize_print(capsys) -> None:
     assert captured.out == Fore.CYAN + f"\n\nElapsed time: {10.50:.2f} seconds ({42} characters printed)\n" + \
                            f"Alarms toggled: {10} times\n" + \
                            f"Alarms status: {['LOW: ON', 'MEDIUM: OFF', 'HIGH: OFF']}\n"
+    
+
+def test_stop() -> None:
+    alarm_system = AlarmSystem()
+
+    with patch("threading.Timer") as mock_timer:
+        alarm_system.alarm_tick()
+        alarm_system.stop()
+        mock_timer.assert_called_with(alarm_system.tick_rate, alarm_system.alarm_tick)
+        mock_timer.return_value.cancel.assert_called_once()
