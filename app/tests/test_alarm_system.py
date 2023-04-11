@@ -33,4 +33,19 @@ def test_alarm_system_init() -> None:
 def test_toggle_alarm() -> None:
     alarm_system = AlarmSystem()
 
-    
+    alarm_system.toggle_alarm(alarm_system.alarms[0])
+    assert alarm_system.alarms[0].active == True
+    alarm_system.toggle_alarm(alarm_system.alarms[0])
+    assert alarm_system.alarms[0].active == False
+
+    alarm_system.toggle_alarm(alarm_system.alarms[0])
+    assert alarm_system.current_alarm_priority == 1
+    alarm_system.toggle_alarm(alarm_system.alarms[2])
+    assert alarm_system.current_alarm_priority == 3
+    alarm_system.toggle_alarm(alarm_system.alarms[1])
+    assert alarm_system.current_alarm_priority == 3
+    alarm_system.toggle_alarm(alarm_system.alarms[2])
+    assert alarm_system.current_alarm_priority == 2
+    alarm_system.toggle_alarm(alarm_system.alarms[1])
+    alarm_system.toggle_alarm(alarm_system.alarms[0])
+    assert alarm_system.current_alarm_priority == 0
