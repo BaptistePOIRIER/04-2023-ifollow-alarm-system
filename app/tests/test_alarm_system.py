@@ -140,3 +140,18 @@ def test_alarm_tick_high_beep(capsys) -> None:
                             "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
                             "".join([Fore.RED + "X" for _ in range(1)]) + "".join([Fore.RED + "_" for _ in range(1)]) + \
                             "".join([Fore.RED + "_" for _ in range(8)])
+
+
+def test_summarize_print(capsys) -> None:
+    alarm_system = AlarmSystem()
+    
+    alarm_system.toggle_alarm(alarm_system.alarms[0])
+    alarm_system.summary["total_ticks"] = 42
+    alarm_system.summary["total_toggles"] = 10
+
+    alarm_system.stop()
+
+    captured = capsys.readouterr()
+    assert captured.out == Fore.CYAN + f"\n\nElapsed time: {10.50:.2f} seconds ({42} characters printed)\n" + \
+                           f"Alarms toggled: {10} times\n" + \
+                           f"Alarms status: {['LOW: ON', 'MEDIUM: OFF', 'HIGH: OFF']}\n"
