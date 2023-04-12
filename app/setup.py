@@ -10,6 +10,7 @@ setup(
     url='https://github.com/BaptistePOIRIER/04-2023-ifollow-alarm-system',
     packages=find_packages(include=['src', 'test']),
     install_requires=[
+        'keyboard==0.13.5',
         'colorama==0.4.5'
     ],
     setup_requires=['pytest-runner'],
