@@ -2,6 +2,7 @@ import keyboard
 import threading
 
 from colorama import Fore, Style, init
+from typing import List
 
 from src.alarm_type import AlarmType
 from src.alarm import Alarm
@@ -9,7 +10,7 @@ from src.alarm import Alarm
 init()
 
 class AlarmSystem:
-    def __init__(self, alarms: list[AlarmType] = [AlarmType.LOW, AlarmType.MEDIUM, AlarmType.HIGH], tick_rate: float = 0.25) -> None:
+    def __init__(self, alarms: List[AlarmType] = [AlarmType.LOW, AlarmType.MEDIUM, AlarmType.HIGH], tick_rate: float = 0.25) -> None:
         self.tick_rate = tick_rate
         self.tick = 0
 
