@@ -1,7 +1,7 @@
 from colorama import Fore, Style
 
-from src.alarm import Alarm
-from src.alarm_type import AlarmType
+from app.alarm import Alarm
+from app.alarm_type import AlarmType
 
 
 def test_alarm_low_init() -> None:

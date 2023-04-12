@@ -1,4 +1,4 @@
-from src.alarm_type import AlarmType
+from app.alarm_type import AlarmType
 
 
 def test_alarm_type_low() -> None:

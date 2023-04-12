@@ -1,7 +1,7 @@
 import keyboard
 
-from src.alarm_system import AlarmSystem
-from src.alarm_type import AlarmType
+from app.alarm_system import AlarmSystem
+from app.alarm_type import AlarmType
 
 
 def main():

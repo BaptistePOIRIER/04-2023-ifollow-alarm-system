@@ -3,9 +3,9 @@ import keyboard
 
 from colorama import Fore, Style
 
-from src.alarm_system import AlarmSystem
-from src.alarm import Alarm
-from src.alarm_type import AlarmType
+from app.alarm_system import AlarmSystem
+from app.alarm import Alarm
+from app.alarm_type import AlarmType
 
 
 def test_alarm_system_init_default() -> None:

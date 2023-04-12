@@ -1,6 +1,6 @@
 from typing import Any
 
-from src.alarm_type import AlarmType
+from app.alarm_type import AlarmType
 
 
 class Alarm():

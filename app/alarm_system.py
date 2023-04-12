@@ -4,8 +4,8 @@ import threading
 from colorama import Fore, Style, init
 from typing import List
 
-from src.alarm_type import AlarmType
-from src.alarm import Alarm
+from app.alarm_type import AlarmType
+from app.alarm import Alarm
 
 init()
 
