@@ -23,9 +23,9 @@ To run the alarm system, navigate to the root directory and run the following co
 python main.py
 ```
 
-Expected output:
+Demo:
 
-![Expected output](https://user-images.githubusercontent.com/75702738/231619335-2ab08174-c2f2-4916-b786-74f2576ceb4a.gif)
+![Demo](https://user-images.githubusercontent.com/75702738/231619335-2ab08174-c2f2-4916-b786-74f2576ceb4a.gif)
 
 
 ## Tests
