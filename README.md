@@ -87,4 +87,4 @@ This class is the main class of the system. It creates the alarm system, being g
 Finally, the `main.py` file is the main file of the app. It creates the alarm system, starts the alarm tick loop which update the alarms every tick. It also handles the keyboard inputs to toggle the alarms and stop the app.
 
 ## License
-This project is licensed under the MIT license - see the LICENSE file for details.
+This project is licensed under the MIT license - see the [LICENSE](LICENSE) file for details.
