@@ -2,6 +2,16 @@
 
 The purpose of this repo is for [iFollow](https://ifollow.fr)'s technical team, to be able to review my technical abilities facing the following [instructions](ifollow_test.pdf).
 
+## Table of contents
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Tests](#tests)
+  - [How it works](#how-it-works)
+    - [AlarmType](#alarmtype)
+    - [Alarm](#alarm)
+    - [AlarmSystem](#alarmsystem)
+  - [Main](#main)
 
 ## Installation
 
