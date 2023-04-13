@@ -38,6 +38,20 @@ class AlarmSystem:
         self.summary["total_toggles"] += 1
 
 
+    def key_event(self, event: keyboard._Event) -> None:
+        key_name = event.name
+
+        for alarm in self.alarms:
+            if key_name == alarm.toggle_char and event.event_type == keyboard.KEY_DOWN:
+                if key_name not in self.pressed_keys:
+                    self.toggle_alarm(alarm)
+                    self.pressed_keys.add(key_name)
+            
+            elif event.event_type == keyboard.KEY_UP:
+                if key_name in self.pressed_keys:
+                    self.pressed_keys.remove(key_name)
+
+
     def alarm_tick(self) -> None:
         if self.current_alarm_priority != 0:
             if (self.tick % self.alarm.beep_interval < self.alarm.beep_duration and
@@ -52,20 +66,6 @@ class AlarmSystem:
         self.summary["total_ticks"] += 1
         self.timer = threading.Timer(self.tick_rate, self.alarm_tick)
         self.timer.start()
-
-
-    def key_event(self, event: keyboard._Event) -> None:
-        key_name = event.name
-
-        for alarm in self.alarms:
-            if key_name == alarm.toggle_char and event.event_type == keyboard.KEY_DOWN:
-                if key_name not in self.pressed_keys:
-                    self.toggle_alarm(alarm)
-                    self.pressed_keys.add(key_name)
-            
-            elif event.event_type == keyboard.KEY_UP:
-                if key_name in self.pressed_keys:
-                    self.pressed_keys.remove(key_name)
 
 
     def summarize(self) -> None:
